@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+    <?page title="Customer Management - ZK and Tailwind CSS"?>
+    <script src="https://cdn.tailwindcss.com"/>
+    <style>
+        @import url("/zkau/web/styles/crm.css");
+        @import url("https://use.hugeicons.com/font/icons.css");
+    </style>
+
+    <div sclass="min-h-screen bg-gray-100 py-10 px-4 sm:px-6 lg:px-8">
+        <div sclass="max-w-6xl mx-auto">
+            <window apply="org.zkoss.bind.BindComposer"
+                    viewModel="@id('vm') @init('com.example.crm.customer.viewmodel.CustomerViewModel')"
+                    sclass="zk-card">
+
+                <!-- Card Container -->
+                <div sclass="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
+                    <!-- Card Header -->
+                    <div sclass="px-6 py-5 border-b border-gray-200 bg-white flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <label value="Customer Management" sclass="text-xl font-bold text-gray-900 block"/>
+                            <label value="Manage your customers, view details, and update customer information." sclass="text-sm text-gray-500 mt-1 block"/>
+                        </div>
+                        <button label="+ Add Customer" onClick="@command('add')" sclass="btn-success"/>
+
+
+                    </div>
+
+                    <!-- Filter & Search Bar -->
+                    <div sclass="p-6 bg-gray-50 border-b border-gray-200">
+                        <div sclass="flex flex-col sm:flex-row gap-3 items-center">
+                            <div sclass="w-full sm:w-80">
+                                <textbox placeholder="Search by first name, last name, or company..."
+                                         value="@bind(vm.query)"
+                                         onOK="@command('search')"
+                                         sclass="w-full"/>
+                            </div>
+                            <div sclass="flex gap-2">
+                                <button label="Search" onClick="@command('search')" sclass="btn-primary"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Table / Grid Area -->
+
+                <div sclass="p-6">
+                        <grid model="@bind(vm.customers)" emptyMessage="No customers found. Click '+ Add Customer' to create one." sclass="modern-grid w-full">
+                            <columns>
+                                <column label="First Name" width="20%"/>
+                                <column label="Last Name" width="20%"/>
+                                <column label="Email" width="25%"/>
+                                <column label="Phone" width="20%"/>
+                                <column label="Actions" width="15%"/>
+                            </columns>
+                            <template name="model">
+                                <row>
+                                    <label value="@load(each.firstName)" sclass="font-semibold text-gray-900"/>
+                                    <label value="@load(each.lastName)" sclass="text-gray-700"/>
+                                    <label value="@load(each.email)" sclass="text-gray-600"/>
+                                    <label value="@load(each.phoneNumber)" sclass="text-gray-600"/>
+                                    <div sclass="flex items-center space-x-2">
+                                        <button label="Edit" onClick="@command('edit', id=each.id)" sclass="btn-secondary btn-sm"/>
+                                        <button label="Delete" onClick="@command('delete', id=each.id)" sclass="btn-danger btn-sm"/>
+                                    </div>
+                                </row>
+                            </template>
+                        </grid>
+
+                        <!-- Pagination Footer -->
+                        <div sclass="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4 pt-4 border-t border-gray-200">
+                            <div sclass="text-sm text-gray-700">
+                                <label value="Total: " sclass="text-gray-500"/>
+                                <label value="@load(vm.total)" sclass="font-semibold text-gray-900"/>
+                                <label value=" customers recorded" sclass="text-gray-500"/>
+                            </div>
+                            <div sclass="flex items-center space-x-3">
+                                <button label="← Prev" onClick="@command('prevPage')" disabled="@load(vm.page eq 0)" sclass="btn-secondary btn-sm"/>
+                                <div sclass="px-3 py-1 bg-gray-100 rounded text-sm font-medium text-gray-700">
+                                    <label value="Page "/>
+                                    <label value="@load(vm.page + 1)"/>
+                                </div>
+                                <button label="Next →" onClick="@command('nextPage')"
+                                        disabled="@load(empty vm.customers or ((vm.page + 1) * vm.size ge vm.total))"
+                                        sclass="btn-secondary btn-sm"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </window>
+        </div>
+    </div>
+</zk>
