@@ -5,7 +5,7 @@ A customer relationship management (CRM) web application built with **Spring Boo
 ## Tech Stack
 
 - **Java 25** / Spring Boot 4.1.1
-- **ZK Framework 10.0.0** (Jakarta) with ZK Spring Boot Starter 3.2.7.1
+- **ZK Framework 10.0.0** (Jakarta) with ZK Spring Boot Starter 3.2.7
 - **Spring Data JPA** + Hibernate
 - **PostgreSQL** (database: `crm_db`)
 - **Lombok**
